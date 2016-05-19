@@ -43,6 +43,9 @@ do_install() {
 do_deploy() {
     install -d ${DEPLOYDIR}
     install -m 0644 ${B}/out/arm/core/tee.bin ${DEPLOYDIR}
+
+    install -d ${DEPLOYDIR}/export-ta_arm32/
+    rsync -a ${B}/out/arm/export-ta_arm32 ${DEPLOYDIR}
 }
 
 addtask do_deploy before build after do_compile
