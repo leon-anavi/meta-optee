@@ -1,0 +1,50 @@
+#!/bin/bash
+
+launch_terminal() {
+	nc -z 127.0.0.1 $1 || \
+	xterm -title "$2" -e /bin/bash -c "$SOC_TERM $1" &
+}
+
+wait_for_ports() {
+	while $(true); do
+		nc -z 127.0.0.1 $1 && nc -z 127.0.0.1 $2 && break
+		sleep 1
+	done
+}
+
+
+# --- Entry point ---
+
+[ -z "${BUILDDIR}" ] && {
+	echo BUILDDIR not set. maybe you did not source your bitbake environment?
+	exit 1
+}
+
+MACHINE="qemuarm-virt"
+QEMUBIN="${BUILDDIR}/tmp/sysroots/x86_64-linux/usr/bin/qemu-system-arm"
+SOC_TERM="${BUILDDIR}/tmp/sysroots/x86_64-linux/usr/bin/soc_term"
+
+[ -f "${QEMUBIN}" ] || {
+	echo "qemu-native tool not found. You may need to run: bitbake qemu-native"
+	exit 2
+}
+
+[ -f "${SOC_TERM}" ] || {
+	echo "soc-term-native tool not found. You may need to run: bitbake soc-term-native"
+	exit 2
+}
+
+launch_terminal 54320 "Normal World"
+launch_terminal 54321 "Secure World"
+wait_for_ports 54320 54321
+
+echo "Enter 'c' in QEmu monitor to start the session"
+
+$QEMUBIN \
+	-nographic \
+	-serial tcp:localhost:54320 -serial tcp:localhost:54321 \
+	-s -S -machine virt -machine secure=on -cpu cortex-a15 \
+	-m 1057 \
+	-bios ${BUILDDIR}/tmp/deploy/images/${MACHINE}/bios.bin
+
+killall xterm
