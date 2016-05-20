@@ -16,20 +16,24 @@ do_compile() {
 }
 
 do_install() {
-    install -d ${D}/bin ${D}/include ${D}/lib
-    install -m 0755 ${B}/out/export/bin/* ${D}/bin/
-    install -m 0644 ${B}/out/export/include/* ${D}/include/
-    #TODO: uses SOLIBSDEV
-    install -m 0755 ${B}/out/export/lib/* ${D}/lib/
+    install -d ${D}/${bindir} ${D}/${includedir} ${D}/${base_libdir}
+
+    install -m 0755 ${B}/out/export/bin/* ${D}/${bindir}
+    install -m 0644 ${B}/out/export/include/* ${D}/${includedir}
+
+    install -m 0755 ${B}/out/export/lib/* ${D}/${base_libdir}
 }
 
+
 PROVIDES += "libteec tee-supplicant"
-
-PACKAGES =+ "libteec tee-supplicant"
-
-ALLOW_EMPTY_${PN} = "1"
+PACKAGES =+ "libteec-dev libteec-dbg libteec tee-supplicant-dbg tee-supplicant"
 
 FILES_${PN} = ""
-FILES_libteec += "/lib/* /include/*"
-FILES_tee-supplicant += "/bin/*"
+
+FILES_libteec += "${base_libdir}/lib*so*"
+FILES_libteec-dbg += "${base_libdir}/.debug"
+FILES_libteec-dev += "${includedir}"
+
+FILES_tee-supplicant += "${bindir}/*"
+FILES_tee-supplicant-dbg += "${bindir}/.debug"
 
