@@ -1,0 +1,13 @@
+diff --git a/ta/Makefile b/ta/Makefile
+index 4b31d0a..8d6a29b 100644
+--- a/ta/Makefile
++++ b/ta/Makefile
+@@ -4,7 +4,7 @@ BINARY=8aaaf200-2450-11e4-abe20002a5d5c51b
+ 
+ include $(TA_DEV_KIT_DIR)/mk/ta_dev_kit.mk
+ 
+-all: $(BINARY).ta
++all: $(out-dir)/$(BINARY).ta
+ 
+ clean: clean_ta_file
+ .PHONY: clean_ta_file
