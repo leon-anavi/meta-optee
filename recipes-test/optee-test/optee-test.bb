@@ -17,7 +17,7 @@ do_configure() {
     :
 }
 
-DEPENDS = "optee-client"
+DEPENDS = "libteec"
 do_compile[depends] += "optee-os:do_deploy"
 
 EXTRA_OEMAKE='-C ${S} \
@@ -30,7 +30,7 @@ EXTRA_OEMAKE='-C ${S} \
 	CROSS_COMPILE_HOST="${TARGET_PREFIX}" \
 	CROSS_COMPILE_TA="${TARGET_PREFIX}" \
 	TA_DEV_KIT_DIR="${DEPLOY_DIR_IMAGE}/export-ta_arm32" \
-	OPTEE_CLIENT_EXPORT="${S}/../../../optee-client/1.0-r0/git/out/export" \
+	OPTEE_CLIENT_EXPORT="${STAGING_INCDIR}/.." \
 	COMPILE_NS_USER="32"'
 
 do_compile() {
