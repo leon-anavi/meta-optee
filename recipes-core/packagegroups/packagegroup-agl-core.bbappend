@@ -1,4 +1,5 @@
 RDEPENDS_${PN} += "\
+	bios-qemu-tz-arm \
 	libteec \
 	tee-supplicant \
 	optee-test \
