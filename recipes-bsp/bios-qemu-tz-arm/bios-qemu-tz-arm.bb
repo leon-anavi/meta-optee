@@ -35,9 +35,14 @@ EXTRA_OEMAKE='-C ${S} \
 	CROSS_COMPILE="${TARGET_PREFIX}" \
 	O="${S}/out/bios-qemu" \
 	BIOS_NSEC_BLOB="${DEPLOY_DIR_IMAGE}/zImage-${MACHINE}.bin" \
-	BIOS_NSEC_ROOTFS="${DEPLOY_DIR_IMAGE}/agl-image-minimal-${MACHINE}.cpio.gz" \
+	BIOS_NSEC_ROOTFS="${WORKDIR}/dummy.cpio" \
 	BIOS_SECURE_BLOB="${DEPLOY_DIR_IMAGE}/tee.bin" \
 	PLATFORM_FLAVOR=virt'
+
+do_configure() {
+	echo "dummy" > dummy.file
+	echo "dummy.file" | cpio -o > ${WORKDIR}/dummy.cpio
+}
 
 do_compile() {
     oe_runmake
@@ -46,6 +51,8 @@ do_compile() {
 do_install() {
     :
 }
+
+ALLOW_EMPTY_${PN} = "1"
 
 do_deploy() {
     install -d ${DEPLOYDIR}
