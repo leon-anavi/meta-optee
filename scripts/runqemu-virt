@@ -40,11 +40,16 @@ wait_for_ports 54320 54321
 
 echo "Enter 'c' in QEmu monitor to start the session"
 
+MAIN_STORAGE="${BUILDDIR}/tmp/deploy/images/qemuarm-virt/agl-image-minimal-qemuarm-virt.ext4"
 $QEMUBIN \
 	-nographic \
 	-serial tcp:localhost:54320 -serial tcp:localhost:54321 \
 	-s -S -machine virt -machine secure=on -cpu cortex-a15 \
 	-m 1057 \
+	-device virtio-net-device,vlan=0,id=net0,mac=52:54:00:09:a4:37 \
+	-net user,vlan=0,name=hostnet0 \
+	-drive file=${MAIN_STORAGE},if=none,id=drive-virtio-disk0,format=raw \
+	-device virtio-blk-device,drive=drive-virtio-disk0,id=virtio-disk0 \
 	-bios ${BUILDDIR}/tmp/deploy/images/${MACHINE}/bios.bin
 
 killall xterm
