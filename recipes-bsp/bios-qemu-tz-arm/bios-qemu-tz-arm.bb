@@ -7,6 +7,11 @@ SRCREV = "dad8551a66d3ca121ad1f2e577f68dbb4b8e76db"
 
 S = "${WORKDIR}/git"
 
+SRC_URI += " \
+	file://0001-cmdline-root-on-vda.patch \
+	file://0002-disable-initramfs.patch \
+"
+
 inherit deploy
 
 # native tool

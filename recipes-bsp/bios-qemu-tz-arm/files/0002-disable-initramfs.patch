@@ -1,0 +1,45 @@
+diff --git a/bios/main.c b/bios/main.c
+index 8d58f32..62577c6 100644
+--- a/bios/main.c
++++ b/bios/main.c
+@@ -502,9 +502,9 @@ static void copy_ns_images(void)
+ 	dtb_addr = ROUNDUP(dst, PAGE_SIZE) + 96 * 1024 * 1024; /* safe spot */
+ 	dst = copy_dtb(dtb_addr, DTB_START);
+ 
+-	rootfs_start = ROUNDUP(dst + DTB_MAX_SIZE, PAGE_SIZE);
++	/*rootfs_start = ROUNDUP(dst + DTB_MAX_SIZE, PAGE_SIZE);
+ 	rootfs_end = copy_bios_image("rootfs", rootfs_start,
+-			&__linker_nsec_rootfs_start, &__linker_nsec_rootfs_end);
++			&__linker_nsec_rootfs_start, &__linker_nsec_rootfs_end);*/
+ }
+ 
+ #define OPTEE_MAGIC		0x4554504f
+@@ -589,6 +589,7 @@ void main_init_sec(struct sec_entry_arg *arg)
+ 	msg("Initializing secure world\n");
+ }
+ 
++#if 0
+ static void setprop_cell(void *fdt, const char *node_path,
+ 		const char *property, uint32_t val)
+ {
+@@ -601,6 +602,7 @@ static void setprop_cell(void *fdt, const char *node_path,
+ 	r = fdt_setprop_cell(fdt, offs, property, val);
+ 	CHECK(r < 0);
+ }
++#endif
+ 
+ static void setprop_string(void *fdt, const char *node_path,
+ 		const char *property, const char *string)
+@@ -629,8 +631,10 @@ static void call_kernel(uint32_t entry, uint32_t dtb,
+ 	/*MACH_VEXPRESS see linux/arch/arm/tools/mach-types*/
+ 	const uint32_t a1 = 2272;
+ 
+-	setprop_cell(fdt, "/chosen", "linux,initrd-start", initrd);
+-	setprop_cell(fdt, "/chosen", "linux,initrd-end", initrd_end);
++	/*setprop_cell(fdt, "/chosen", "linux,initrd-start", initrd);
++	setprop_cell(fdt, "/chosen", "linux,initrd-end", initrd_end);*/
++	initrd += 0; /* to avoid warning/build stop */
++	initrd_end += 0;
+ 	setprop_string(fdt, "/chosen", "bootargs", cmdline);
+ 	r = fdt_pack(fdt);
+ 	CHECK(r < 0);

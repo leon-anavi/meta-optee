@@ -1,0 +1,14 @@
+diff --git a/bios/main.c b/bios/main.c
+index 46732d1..8d58f32 100644
+--- a/bios/main.c
++++ b/bios/main.c
+@@ -622,7 +622,8 @@ static void call_kernel(uint32_t entry, uint32_t dtb,
+ 	kernel_ep_func ep = (kernel_ep_func)entry;
+ 	void *fdt = (void *)dtb;
+ 	const char cmdline[] =
+-"console=ttyAMA0,115200 earlyprintk=serial,ttyAMA0,115200 dynamic_debug.verbose=1";
++"root=/dev/vda rw console=ttyAMA0,115200 earlyprintk=serial,ttyAMA0,115200 rootfstype=ext4 dynamic_debug.verbose=1";
++/*"console=ttyAMA0,115200 earlyprintk=serial,ttyAMA0,115200 dynamic_debug.verbose=1";*/
+ 	int r;
+ 	const uint32_t a0 = 0;
+ 	/*MACH_VEXPRESS see linux/arch/arm/tools/mach-types*/
