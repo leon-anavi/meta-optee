@@ -26,15 +26,10 @@ git clone https://github.com/iotbzh/meta-optee
 
 ## Build the images
 
-1. Generate the FS image and optee os:
-   ```bash
-   bitbake agl-image-minimal
-   ```
-
-2. Generate the qemu bios image:
-   ```bash
-   bitbake -C compile bios-qemu-tz-arm
-   ```
+Generate the FS image and optee os:
+```bash
+bitbake agl-image-minimal
+```
 
 ## Start QEmu
 
@@ -55,7 +50,7 @@ xtest
 
 - Only one virtual machine is supported (cortex-a15),
 
-- At this time, the bios-qemu-tz-arm recipe is depending on the do_rootfs task of agl-image-minimal. Thus, it is not possible to embed it yet in the image, it requires qemu to be able to uses the rootfs file image directly instead of using cpio initramfs mechanism.
+- ~~At this time, the bios-qemu-tz-arm recipe is depending on the do_rootfs task of agl-image-minimal. Thus, it is not possible to embed it yet in the image, it requires qemu to be able to uses the rootfs file image directly instead of using cpio initramfs mechanism.~~
 
 # External references
 
