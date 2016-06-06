@@ -9,7 +9,7 @@ SRC_URI = "git://github.com/qemu/qemu.git;protocol=https;branch=master"
 SRCREV = "de1d099a448beb2ec39af4bd9ce4dd6452a18cb5"
 S = "${WORKDIR}/git"
 
-DEPENDS = "soc-term-native"
+DEPENDS += "soc-term-native"
 
 COMPATIBLE_HOST_class-target_mips64 = "null"
 
