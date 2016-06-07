@@ -2,6 +2,8 @@ SUMMARY = "OP-TEE os"
 LICENSE = "BSD-2-Clause & BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://${S}/LICENSE;md5=69663ab153298557a59c67a60a743e5b"
 
+DEPENDS = "python-pycrypto-native"
+
 SRC_URI = "git://github.com/OP-TEE/optee_os;protocol=https;branch=master"
 SRCREV = "2.0.0"
 
